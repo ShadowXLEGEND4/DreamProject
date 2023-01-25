@@ -811,6 +811,458 @@ internal class Rebel : Community
 
 2. Създайте следната йерархия от класове и интерфейси.
  За ваше удобство ще ви бъде предоставен скелет на задачата, който обаче е непълен/неработещ/некоректен. Предоставеният скелет трябва да се приведе в работещ вид.
-- 
+- abstract class Animal : IAnimal, IMakeNoise, IMakeTrick
 
-2. 
+{
+
+
+
+    private string name;
+
+
+
+    protected Animal(string name)
+
+    {
+
+        Name = name;
+
+    }
+
+
+
+    public string Name
+
+    {
+
+        get { return name; }
+
+
+
+        private set
+
+        {
+
+            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+
+            {
+
+                throw new ArgumentException("Name can't be null or empty!");
+
+            }
+
+            name = value;
+
+        }
+
+    }
+
+
+
+    public string Type { get; set; }
+
+
+
+    public abstract string MakeNoise();
+
+    public abstract string MakeTrick();
+
+    public abstract void Perform();
+
+
+
+    public override string ToString()
+
+    {
+
+        return $"{this.Type} {this.Name}";
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+class Cat : Animal
+
+{
+
+    public Cat(string name) : base(name)
+
+    {
+
+        Type = "Cat";
+
+    }
+
+
+
+    public override string MakeNoise()
+
+    {
+
+        return "Meow!";
+
+    }
+
+
+
+    public override string MakeTrick()
+
+    {
+
+        return "No trick for you! I'm too lazy!";
+
+    }
+
+
+
+    public override void Perform()
+
+    {
+
+
+
+        Console.WriteLine($">>> {MakeNoise()}");
+
+        Console.WriteLine($">>> {MakeTrick()}");
+
+    }
+
+}
+
+
+
+
+
+
+
+class Dog : Animal
+
+
+
+{
+
+
+
+    public Dog(string name) : base(name)
+
+    {
+
+        Type = "Dog";
+
+    }
+
+
+
+    public override string MakeNoise()
+
+    {
+
+        return "Woof!";
+
+    }
+
+
+
+    public override string MakeTrick()
+
+    {
+
+        return "Hold my paw, human!";
+
+    }
+
+    public override void Perform()
+
+    {
+
+
+
+        Console.WriteLine($">>> {MakeNoise()}");
+
+        Console.WriteLine($">>> {MakeTrick()}");
+
+    }
+
+}
+
+
+
+
+
+
+
+interface IAnimal
+
+{
+
+    public string Type { get; set; }
+
+    public string Name { get; }
+
+    void Perform();
+
+
+
+}
+
+
+
+interface IMakeNoise
+
+{
+
+    string MakeNoise();
+
+}
+
+
+
+interface IMakeTrick
+
+{
+
+    string MakeTrick();
+
+}
+
+
+
+
+
+
+
+class Program
+
+{
+
+    static void Main(string[] args)
+
+    {
+
+        List<IAnimal> animals = new List<IAnimal>();
+
+        int n = int.Parse(Console.ReadLine());
+
+        for (int i = 0; i < n; i++)
+
+        {
+
+            string[] line = Console.ReadLine().Split();
+
+            IAnimal animal = CreateAnimal(line);
+
+            animals.Add(animal);
+
+        }
+
+
+
+        string trainerName = Console.ReadLine();
+
+        Trainer trainer = null;
+
+        string name = null;
+
+        while (name != "End")
+
+        {
+
+            name = Console.ReadLine();
+
+
+
+            IAnimal current = animals.Where(a => a.Name.Equals(name)).FirstOrDefault();
+
+            if (current == null)
+
+            {
+
+
+
+                Console.WriteLine("No such name in the Database!");
+
+            }
+
+            else
+
+            {
+
+                if (trainer == null)
+
+                {
+
+
+
+                    trainer = new Trainer(trainerName, current);
+
+
+
+                }
+
+
+
+                trainer.Work(current);
+
+
+
+                trainer.Make();
+
+
+
+            }
+
+        }
+
+    }
+
+
+
+    private static IAnimal CreateAnimal(string[] line)
+
+    {
+
+        IAnimal animal = null;
+
+
+
+        switch (line[0])
+
+        {
+
+            case "Cat":
+
+                animal = (IAnimal)new Cat(line[1]);
+
+                break;
+
+
+
+            case "Dog":
+
+                animal = (IAnimal)new Dog(line[1]);
+
+                break;
+
+        }
+
+
+
+        return animal;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+class Trainer
+
+{
+
+    private IAnimal entity;
+
+    private string name;
+
+
+
+    public Trainer(string name, IAnimal entity)
+
+    {
+
+        this.Name = name;
+
+        this.Entity = entity;
+
+    }
+
+
+
+    public string Name
+
+    {
+
+        get { return this.name; }
+
+        private set
+
+        {
+
+            if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+
+            {
+
+                throw new ArgumentException("Name can't be null or empty!");
+
+            }
+
+            name = value;
+
+        }
+
+    }
+
+
+
+    public IAnimal Entity
+
+    {
+
+        get { return this.entity; }
+
+        private set
+
+        {
+
+            entity = value;
+
+        }
+
+    }
+
+
+
+
+
+
+
+    public void Work(IAnimal entity)
+
+    {
+
+        this.Entity = entity;
+
+        Console.WriteLine($"Trainer {this.Name} works with {Entity}!");
+
+    }
+
+
+
+    public void Make()
+
+    {
+
+        this.Entity.Perform();
+
+    }
+
+
+
+}
