@@ -225,7 +225,21 @@ XXI
 3. Извлечете от базата данни най-бързия космически кораб и името на дестинацията му.
 
 
- - 
+ - 1. SELECT card_number, job_during_journey FROM travel_cards
+
+ORDER BY card_number ASC;
+
+2. SELECT id, CONCAT(first_name, ' ', last_name), ucn FROM colonists
+
+ORDER BY first_name ASC, last_name ASC, id ASC;
+
+3. SELECT s.name AS 'spaceship_name', sp.name AS 'spaceport_name' FROM spaceships AS s
+
+INNER JOIN journey AS j ON s.id = j.spaceship_id
+
+INNER JOIN spaceports AS sp ON sp.id = j.destination_spaceport_id
+
+ORDER BY light_speed_rate DESC LIMIT 1;
 
 
 
