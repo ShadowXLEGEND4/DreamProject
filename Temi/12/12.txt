@@ -536,8 +536,7 @@ namespace JSONGame
 
 ● FirstRegister (DateTime) – дата на първа регистрация
 
- - Car.cs:
-public class Car
+ - public class Car
 
     {
 
@@ -550,6 +549,76 @@ public class Car
         public DateTime FirstRegister { get; set; }
 
     }
+
+Допуснати грешки на всеки от редовете със свойства. За всеки поправен ред код се дават до 4 т.
+
+Program.cs:
+
+
+
+using System;
+
+using System.Collections.Generic;
+
+using System.Text.Json;
+
+
+
+namespace JSONGame
+
+{
+
+    class Program
+
+    {
+
+        static void Main(string[] args)
+
+        {
+
+            List<Car> cars = new List<Car>();
+
+            cars.Add(new Car()
+
+            {
+
+                Id = 1,
+
+                Name = "Car 1",
+
+                Km = 300000,
+
+                FirstRegister = DateTime.Parse("1/1/1998")
+
+            });
+
+
+
+            cars.Add(new Car()
+
+            {
+
+                Id = 2,
+
+                Name = "Car 2",
+
+                Rating = 230000,
+
+                FirstRegister = DateTime.Parse("1/1/2006")
+
+            });
+
+
+
+            string jsonString = JsonSerializer.Serialize(cars);
+
+            Console.WriteLine(jsonString);
+
+        }
+
+    }
+
+}
 
 
 
