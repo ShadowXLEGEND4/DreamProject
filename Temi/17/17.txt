@@ -21,7 +21,21 @@ IV
 
 1. [[1] - Векторите] са съставени от компоненти, които са числа. Те представляват [[4] - масив] от числа, а операциите върху тях се разглеждат като операции върху него. 
 В програмните езици те могат да се представят като [[7] - масив].
+import numpy as np
 
+num_trials = 1000
+coin_outcomes = ['ези', 'тора']
+
+# Хвърляне на монета
+coin_flips = np.random.choice(coin_outcomes, size=num_trials)
+
+# Пресмятане на средната вероятност
+probability_ezi = np.mean(coin_flips == 'ези')
+probability_tora = np.mean(coin_flips == 'тора')
+
+# Извеждане на резултатите
+print("Средна вероятност за резултат 'ези':", probability_ezi)
+print("Средна вероятност за резултат 'тора':", probability_tora)
 
 V,VI
 
